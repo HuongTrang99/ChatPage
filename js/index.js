@@ -13,6 +13,26 @@ window.onload = () => {
   // firebase.analytics();
   console.log(firebase.app());
 
+  firebase.auth().onAuthStateChanged((user)=>{
+    if (user){
+      console.log(user)
+      model.currentUser = {
+        displayName: user.displayName,
+        email: user.email
+      }
+      if(user.emailVerified){
+        view.setActiveScreen('chatPage')
+      }
+      else{
+        alert('Please verify your email!')
+        firebase.auth().signOut()
+        view.setActiveScreen('loginPage')
+      }
+      
 
-  view.setActiveScreen('registerPage')
+    }else{
+      view.setActiveScreen('registerPage')
+    }
+  })
+  
 }

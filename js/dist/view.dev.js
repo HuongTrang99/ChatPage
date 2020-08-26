@@ -35,22 +35,48 @@ view.setActiveScreen = function (screenName) {
         };
         controller.login(data);
       });
-      document.getElementById('redirect-to-register').addEventListener('click', function () {
-        view.setActiveScreen('registerPage');
-      });
       break;
 
     case 'chatPage':
       document.getElementById('app').innerHTML = component.chatPage;
-      document.getElementById('user-display').innerHTML = " Welcome, ".concat(model.currentUser.displayName, "!!!");
+      var sendMessageForm = document.getElementById('send-message-form');
+      sendMessageForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var message = {
+          content: sendMessageForm.message.value,
+          owner: model.currentUser.email
+        };
+        var messageFromBot = {
+          content: sendMessageForm.message.value,
+          owner: 'Bot'
+        };
+
+        if (sendMessageForm.message.value === '') {
+          console.log('error message');
+        } else {
+          view.addMessage(message);
+          view.addMessage(messageFromBot);
+        }
+      });
       break;
   }
 };
 
-view.setUserName = function (elementId, content) {
-  document.getElementById(elementId).innerHTML = content;
+view.setErrorMessage = function (elementId, content) {
+  document.getElementById(elementId).innerText = content;
 };
 
-view.setErrorMessage = function (elementID, content) {
-  document.getElementById(elementID).innerText = content;
+view.addMessage = function (message) {
+  var messageWrapper = document.createElement('div');
+  messageWrapper.classList.add('message');
+
+  if (message.owner === model.currentUser.email) {
+    messageWrapper.classList.add('mine');
+    messageWrapper.innerHTML = "\n    <div class=\"content\">".concat(message.content, "</div>\n    ");
+  } else {
+    messageWrapper.classList.add('their');
+    messageWrapper.innerHTML = "\n    <div class=\"owner\">".concat(message.owner, "</div>\n    <div class=\"content\">").concat(message.content, "</div>\n    ");
+  }
+
+  document.querySelector('.list-messages').appendChild(messageWrapper);
 };

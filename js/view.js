@@ -1,14 +1,14 @@
 const view = {}
 view.setActiveScreen = (screenName) => {
   switch (screenName) {
-    case 'registerPage':
+    case 'registerPage' :
       document.getElementById('app').innerHTML = component.registerPage
       const registerForm = document.getElementById('register-form')
       registerForm.addEventListener('submit', (e) => {
         e.preventDefault()
         console.log(registerForm.firstName.value)
         const data = {
-          firstName: registerForm.firstName.value,
+          firstName : registerForm.firstName.value,
           lastName: registerForm.lastName.value,
           email: registerForm.email.value,
           password: registerForm.password.value,
@@ -19,8 +19,8 @@ view.setActiveScreen = (screenName) => {
       document.getElementById('redirect-to-login').addEventListener('click', () => {
         view.setActiveScreen('loginPage')
       })
-      break;
-    case 'loginPage':
+    break;
+    case 'loginPage' :
       document.getElementById('app').innerHTML = component.loginPage
       const loginForm = document.getElementById('login-form')
       loginForm.addEventListener('submit', (e) => {
@@ -31,20 +31,50 @@ view.setActiveScreen = (screenName) => {
         }
         controller.login(data)
       })
-      document.getElementById('redirect-to-register').addEventListener('click', () => {
-        view.setActiveScreen('registerPage')
+    break;
+    case 'chatPage':
+      document.getElementById('app').innerHTML = component.chatPage
+      const sendMessageForm = 
+      document.getElementById('send-message-form')
+      sendMessageForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const message = {
+          content: sendMessageForm.message.value,
+          owner: model.currentUser.email
+        }
+        const messageFromBot = {
+          content: sendMessageForm.message.value,
+          owner: 'Bot'
+        }
+        if (sendMessageForm.message.value===''){
+          console.log('error message')}
+        else{
+        view.addMessage(message)
+        view.addMessage(messageFromBot)
+        }
       })
-      
-      break;
-      case 'chatPage':
-        document.getElementById('app').innerHTML = component.chatPage
-        document.getElementById('user-display').innerHTML = ` Welcome, ${model.currentUser.displayName}!!!`;
-            break;
+    break;
   }
 }
-view.setUserName = (elementId, content) => {
-  document.getElementById(elementId).innerHTML = content;
+
+view.setErrorMessage = (elementId, content) => {
+  document.getElementById(elementId).innerText = content
 }
-view.setErrorMessage = (elementID, content) => {
-  document.getElementById(elementID).innerText = content
+view.addMessage = (message) => {
+  const messageWrapper = document.createElement('div')
+  messageWrapper.classList.add('message')
+  if(message.owner === model.currentUser.email) {
+    messageWrapper.classList.add('mine')
+    messageWrapper.innerHTML = `
+    <div class="content">${message.content}</div>
+    `
+  } else {
+    messageWrapper.classList.add('their')
+    messageWrapper.innerHTML = `
+    <div class="owner">${message.owner}</div>
+    <div class="content">${message.content}</div>
+    `
+  }
+  document.querySelector('.list-messages')
+  .appendChild(messageWrapper)
 }
