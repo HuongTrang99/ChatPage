@@ -33,7 +33,11 @@
   #send-message-form button{
     position: absolute;
     right: 10px;
-    top: 23px;
+    top: 13px;
+    border: none;
+    background: transparent;
+    color: blueviolet;
+    font-size: 2rem;
     
   }
   #send-message-form .input-wrapper{
@@ -47,6 +51,7 @@
     padding: 4px 8px;
     border-radius: 4px;
     max-width: 45%;
+    word-break: break-all;
   }
   .list-messages .message.mine .content{
     background-color: #007cfd;
@@ -63,3 +68,4 @@
   .chat-container .list-messages{
     padding: 10px;
   }
+  

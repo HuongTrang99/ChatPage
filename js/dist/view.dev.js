@@ -49,13 +49,19 @@ view.setActiveScreen = function (screenName) {
         var messageFromBot = {
           content: sendMessageForm.message.value,
           owner: 'Bot'
-        };
+        }; // if (sendMessageForm.message.value ===''){
+        //   console.log('error message')}
+        // else{
+        // view.addMessage(message)
+        // view.addMessage(messageFromBot)
+        // }
 
-        if (sendMessageForm.message.value === '') {
-          console.log('error message');
-        } else {
+        if (sendMessageForm.message.value.trim() !== '') {
           view.addMessage(message);
           view.addMessage(messageFromBot);
+          sendMessageForm.message.value = '';
+        } else {
+          console.log('error');
         }
       });
       break;

@@ -74,7 +74,7 @@ component.chatPage=`
         placeholder="Type a message" 
         name="message"></input>
       </div>
-      <button type="Submit"><i class="fab fa-angellist"></i></button>
+      <button class ="btn" type="Submit"><i class="fab fa-angellist"></i></button>
       
     </form>
   </div>
